@@ -1,35 +1,11 @@
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
-const { GraphQLSchema, GraphQLObjectType } = require('graphql');
-const TaskType = require('./schema/schema'); // Import the schema
-
-// Define a RootQuery for GraphQL
-const RootQuery = new GraphQLObjectType({
-  name: 'RootQueryType',
-  fields: {
-    task: {
-      type: TaskType,
-      resolve() {
-        return {
-          id: '1',
-          title: 'Sample Task',
-          weight: 5,
-          description: 'This is a sample task'
-        };
-      }
-    }
-  }
-});
-
-// Create a GraphQL Schema
-const schema = new GraphQLSchema({
-  query: RootQuery
-});
+const schema = require('./schema/schema'); // Import the schema
 
 const app = express();
 
 app.use('/graphql', graphqlHTTP({
-  schema: schema, // Pass the schema here
+  schema, // Use the schema
   graphiql: true  // Enable GraphiQL for testing
 }));
 
